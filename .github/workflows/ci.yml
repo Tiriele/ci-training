@@ -9,6 +9,9 @@ on:
 jobs:
     Node-CI-pipeline:
         runs-on: ubuntu-latest
+        strategy:
+          matrix:
+            os: [windows-latest, ubuntu-latest]
         steps:
             - uses: actions/checkout@v7
             - name: Setup Node.js environment
@@ -17,6 +20,8 @@ jobs:
                 node-version: 24
             - name: Install dependencies
               run: npm ci
+            - name: npm audit
+              run: npm audit --audit-level=moderate
             - name: Run linter
               run: npm run lint
             - name: RUn unit tests
